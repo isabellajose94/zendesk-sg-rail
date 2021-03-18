@@ -20,6 +20,8 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("com.fasterxml.jackson.core:jackson-core:2.12.2")
+	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.12.2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
