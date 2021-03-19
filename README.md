@@ -7,19 +7,20 @@ By providing starting station and destination station, it will provide useful in
 - Step-by-step detailed instructions to ride MRT
 
 *P.S. Need map to remember the MRT map -> http://journey.smrt.com.sg/journey/mrt_network_map/*
+
 ## Installation guide
 
-###Install JDK 11
+### Install JDK 11
 
-####Linux user
+#### Linux user
 ```
 sudo apt-get install openjdk-11-jdk-headless
 ```
 
-####Windows user
+#### Windows user
 Can install manually through oracle website -> *https://www.oracle.com/java/technologies/javase-jdk11-downloads.html*
 
-###Run application
+### Run application
 
 most terminal accept `./gradlew` to run gradle command, if it doesn't work can try `gradlew`
 
@@ -31,7 +32,7 @@ or
 gradlew bootRun
 ```
 
-###Build jar and run the jar
+### Build jar and run the jar
 
 ```
 ./gradlew bootJar
@@ -45,7 +46,7 @@ then run the jar (make sure your JDK is version 11)
 java -jar build/libs/sgrail-0.0.1-SNAPSHOT.jar
 ```
 
-###Run test
+### Run test
 ```
 ./gradlew clean test
 ```
@@ -55,9 +56,9 @@ gradlew clean test
 ```
 To see test summary it can be view in `./build/reports/tests/test/index.html`
 
-##How to use the application
+## How to use the application
 This application provide an API to get best route
-###Route GET API
+### Route GET API
 - Method: `GET`
 - URL: `/api/route/{startStation}/{endStation}`
 - Path Variables:
