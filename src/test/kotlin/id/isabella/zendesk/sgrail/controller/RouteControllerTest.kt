@@ -1,8 +1,6 @@
 package id.isabella.zendesk.sgrail.controller
 
-import org.hamcrest.CoreMatchers
-import org.hamcrest.CoreMatchers.*
-import org.hamcrest.Matchers
+import org.hamcrest.CoreMatchers.`is`
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
