@@ -6,7 +6,7 @@ By providing starting station and destination station, it will provide useful in
 - Station's codes that will be passed through
 - Step-by-step detailed instructions to ride MRT
 
-*P.S. Need map to remember the MRT map -> http://journey.smrt.com.sg/journey/mrt_network_map/*
+*P.S. Need map to remember the MRT map -> http://journey.smrt.com.sg/journey/mrt_network_map/ (slightly different mapping, especially TE lines, refer to src/main/resources/station_map.csv)* 
 
 ## Installation guide
 
@@ -64,10 +64,13 @@ This application provide an API to get best route
 - Path Variables:
   - `startStation` (required): The name of the starting station
   - `endStation` (require): The name of the destination station
+- Query parameters:
+  - `startTime` (required): The starting journey time, format -> `YYYY-MM-DDThh:mm` (e.g. `2019-01-31T16:00`)
 - Success response body format:
+  - Default
 ```
 {
-    "amountOfStations": Integer (e.g. 8,
+    "amountOfStations": Integer (e.g. 8),
     "routes": Array of String (e.g. [
         "EW12",
         "EW11",
@@ -88,6 +91,45 @@ This application provide an API to get best route
         "Take CC line from Paya Lebar to MacPherson",
         "Take CC line from MacPherson to Tai Seng",
         "Take CC line from Tai Seng to Bartley"
+    ])
+}
+```
+  - With time constraint (when `startTime` is filled)
+```
+{
+    "durationTime": Integer (e.g. 150),
+    "routes": Array of String (e.g. [
+        "EW27",
+        "EW26",
+        "EW25",
+        "EW24",
+        "EW23",
+        "EW22",
+        "EW21",
+        "CC22",
+        "CC21",
+        "CC20",
+        "CC19",
+        "DT9",
+        "DT10",
+        "DT11",
+        "DT12"
+    ]),
+    "steps": Array of String (e.g. [
+        "Take EW line from Boon Lay to Lakeside",
+        "Take EW line from Lakeside to Chinese Garden",
+        "Take EW line from Chinese Garden to Jurong East",
+        "Take EW line from Jurong East to Clementi",
+        "Take EW line from Clementi to Dover",
+        "Take EW line from Dover to Buona Vista",
+        "Change from EW line to CC line",
+        "Take CC line from Buona Vista to Holland Village",
+        "Take CC line from Holland Village to Farrer Road",
+        "Take CC line from Farrer Road to Botanic Gardens",
+        "Change from CC line to DT line",
+        "Take DT line from Botanic Gardens to Stevens",
+        "Take DT line from Stevens to Newton",
+        "Take DT line from Newton to Little India"
     ])
 }
 ```
