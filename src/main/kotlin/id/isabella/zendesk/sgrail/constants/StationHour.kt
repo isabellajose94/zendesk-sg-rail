@@ -1,6 +1,6 @@
 package id.isabella.zendesk.sgrail.constants
 
-abstract open class StationHour {
+abstract class StationHour {
     abstract val TRANSIT_DURATION: Int
     abstract val EACH_SPECIAL_STATION_DURATION: Int
     abstract val DEFAULT_EACH_STATION_DURATION: Int

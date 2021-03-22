@@ -4,6 +4,7 @@ import id.isabella.zendesk.sgrail.exceptions.NotFoundException
 import id.isabella.zendesk.sgrail.model.RouteStepsStationAmountData
 import id.isabella.zendesk.sgrail.services.RouteService
 import org.junit.jupiter.api.*
+import org.mockito.Mockito
 import java.time.LocalDateTime
 
 @DisplayName("Route service get route steps")
@@ -257,7 +258,7 @@ class GetRouteStepsTest {
         }
 
         @Test
-        fun `Steps should be 8`() {
+        fun `Steps should be 10`() {
             Assertions.assertEquals(
                 listOf(
                     "Take DT line from King Albert Park to Sixth Avenue",
@@ -272,6 +273,134 @@ class GetRouteStepsTest {
                     "Take NS line from Ang Mo Kio to Yio Chu Kang"
                 ), routeStepsData.steps
             )
+        }
+    }
+
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    @Nested
+    @DisplayName("TE hasn't open yet, so go through NS line")
+    inner class TEHasntOpenYetSoGoThroughNSLine() {
+        private lateinit var routeStepsData: RouteStepsStationAmountData
+
+        @BeforeAll
+        fun triggerFunction() {
+            val mockedDateTimeValue = LocalDateTime.of(2020, 2, 3, 7, 0)
+            Mockito.mockStatic(LocalDateTime::class.java).use { mockedLocalDateTime ->
+                mockedLocalDateTime.`when`<Any> { LocalDateTime.now() }
+                    .thenReturn(mockedDateTimeValue)
+                routeStepsData = routeService.getRouteSteps("Woodlands", "Orchard")
+            }
+        }
+
+        @Test
+        fun `Routes should be 14 codes`() {
+            Assertions.assertEquals(
+                listOf(
+                    "NS9",
+                    "NS10",
+                    "NS11",
+                    "NS12",
+                    "NS13",
+                    "NS14",
+                    "NS15",
+                    "NS16",
+                    "NS17",
+                    "NS18",
+                    "NS19",
+                    "NS20",
+                    "NS21",
+                    "NS22",
+                ), routeStepsData.routes
+            )
+        }
+
+        @Test
+        fun `Amount of stations should be 13`() {
+            Assertions.assertEquals(13, routeStepsData.amountOfStations)
+        }
+
+        @Test
+        fun `Steps should be 13`() {
+            Assertions.assertEquals(
+                listOf(
+                    "Take NS line from Woodlands to Admiralty",
+                    "Take NS line from Admiralty to Sembawang",
+                    "Take NS line from Sembawang to Canberra",
+                    "Take NS line from Canberra to Yishun",
+                    "Take NS line from Yishun to Khatib",
+                    "Take NS line from Khatib to Yio Chu Kang",
+                    "Take NS line from Yio Chu Kang to Ang Mo Kio",
+                    "Take NS line from Ang Mo Kio to Bishan",
+                    "Take NS line from Bishan to Braddell",
+                    "Take NS line from Braddell to Toa Payoh",
+                    "Take NS line from Toa Payoh to Novena",
+                    "Take NS line from Novena to Newton",
+                    "Take NS line from Newton to Orchard",
+                ), routeStepsData.steps
+            )
+        }
+
+        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+        @Nested
+        @DisplayName("TE has open in the future, so go through TE line")
+        inner class TEHasOpenInTheFutureSoGoThroughTELine() {
+            private lateinit var routeStepsData: RouteStepsStationAmountData
+
+            @BeforeAll
+            fun triggerFunction() {
+                val mockedDateTimeValue = LocalDateTime.of(2022, 2, 3, 7, 0)
+                Mockito.mockStatic(LocalDateTime::class.java).use { mockedLocalDateTime ->
+                    mockedLocalDateTime.`when`<Any> { LocalDateTime.now() }
+                        .thenReturn(mockedDateTimeValue)
+                    routeStepsData = routeService.getRouteSteps("Woodlands", "Orchard")
+                }
+            }
+
+            @Test
+            fun `Routes should be 13 codes`() {
+                Assertions.assertEquals(
+                    listOf(
+                        "TE2",
+                        "TE3",
+                        "TE4",
+                        "TE5",
+                        "TE6",
+                        "TE7",
+                        "TE8",
+                        "TE9",
+                        "TE10",
+                        "TE11",
+                        "TE12",
+                        "TE13",
+                        "TE14",
+                    ), routeStepsData.routes
+                )
+            }
+
+            @Test
+            fun `Amount of stations should be 12`() {
+                Assertions.assertEquals(12, routeStepsData.amountOfStations)
+            }
+
+            @Test
+            fun `Steps should be 12`() {
+                Assertions.assertEquals(
+                    listOf(
+                        "Take TE line from Woodlands to Woodlands South",
+                        "Take TE line from Woodlands South to Springleaf",
+                        "Take TE line from Springleaf to Lentor",
+                        "Take TE line from Lentor to Mayflower",
+                        "Take TE line from Mayflower to Bright Hill",
+                        "Take TE line from Bright Hill to Upper Thomson",
+                        "Take TE line from Upper Thomson to Caldecott",
+                        "Take TE line from Caldecott to Mount Pleasant",
+                        "Take TE line from Mount Pleasant to Stevens",
+                        "Take TE line from Stevens to Napier",
+                        "Take TE line from Napier to Orchard Boulevard",
+                        "Take TE line from Orchard Boulevard to Orchard",
+                    ), routeStepsData.steps
+                )
+            }
         }
     }
 }

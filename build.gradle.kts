@@ -25,6 +25,7 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.12.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("org.mockito:mockito-inline:3.8.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 

@@ -36,6 +36,11 @@ class StationDataService {
             toStation: StationData
         ) = fromStation.stationName == toStation.stationName
 
+        fun isStationClose(station: StationData): Boolean {
+            val todaysDate = LocalDateTime.now().toLocalDate()
+            return todaysDate.isBefore(station.openingDate)
+        }
+
         fun isStationClose(station: StationData, stationDateTime: StationDateTime): Boolean {
             return (stationDateTime.date.isBefore(station.openingDate)) ||
                     (stationDateTime.stationHourType == StationHourType.NIGHT_HOUR &&
@@ -75,9 +80,6 @@ class StationDataService {
                     return NormalHour.DEFAULT_EACH_STATION_DURATION
                 }
             }
-            throw NotFoundException("Type of hour can't found - ${stationDateTime.stationHourType}")
         }
     }
-
-
 }

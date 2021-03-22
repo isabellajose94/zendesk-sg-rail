@@ -84,11 +84,14 @@ class RouteService {
     ) {
         if (startStationData.isEmpty())
             throw NotFoundException("`$startStationName` start station is not found")
-        if (stationDateTime != null && startStationData.none { !StationDataService.isStationClose(it, stationDateTime) })
-            throw BadInputException("`$startStationName` is close")
         if (endStationData.isEmpty())
             throw NotFoundException("`$endStationName` end station is not found")
-        if (stationDateTime != null && endStationData.none { !StationDataService.isStationClose(it, stationDateTime) })
+
+        if ((stationDateTime == null && startStationData.none { !StationDataService.isStationClose(it) }) ||
+            (stationDateTime != null && startStationData.none { !StationDataService.isStationClose(it, stationDateTime) }))
+            throw BadInputException("`$startStationName` is close")
+        if ((stationDateTime == null && endStationData.none { !StationDataService.isStationClose(it) }) ||
+            (stationDateTime != null && endStationData.none { !StationDataService.isStationClose(it, stationDateTime) }))
             throw BadInputException("`$endStationName` is close")
     }
 
@@ -120,6 +123,8 @@ class RouteService {
             var unvisitedChildren = startNode.getUnvisitedChildren()
             if (stationDateTime != null) {
                 unvisitedChildren = unvisitedChildren.filter { !StationDataService.isStationClose(it, stationDateTime) }
+            } else {
+                unvisitedChildren = unvisitedChildren.filter { !StationDataService.isStationClose(it) }
             }
 
             for (unvisited in unvisitedChildren) {
