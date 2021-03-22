@@ -139,3 +139,8 @@ This application provide an API to get best route
     "errorMessage": String (e.g. "`Bastley` end station is not found")
 }
 ```
+
+## Solving method
+
+To get best route, I decided to use A* method. By using this method, all the station needs to be connected like the map, that's why in the initial station data reading, I connected all the stations.
+Thank you for the help of this article -> https://medium.com/omio-engineering/how-routing-works-4-simple-algorithms-5919a88c3648
